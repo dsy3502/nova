@@ -29,5 +29,8 @@ jobs:
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run a one-line script
-      run: git clone https://opendev.org/openstack/kolla.git
+      run: |
+        git clone https://github.com/dsy3502/kolla.git
+        cd ./kolla
+        ./tools/build.py nova --config-file ./etc/kolla/kolla-build.conf --push
     
