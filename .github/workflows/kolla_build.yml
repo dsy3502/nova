@@ -42,7 +42,7 @@ jobs:
       run: |
         cd ./kolla
         pip install -r requirements.txt
-        ./tools/build.py nova --config-file ./etc/kolla/kolla-build.conf --push
+        ./tools/build.py nova --config-file ./etc/kolla/kolla-build.conf --push --registry docker.io --namespace openstack
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
