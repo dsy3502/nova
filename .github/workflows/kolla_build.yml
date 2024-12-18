@@ -30,7 +30,9 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run a one-line script
       run: |
-        git clone https://github.com/dsy3502/kolla.git
+        git clone -b stable/2023.2 https://github.com/dsy3502/kolla.git
+    - name: Run a one-line script
+      run: |
         cd ./kolla
         pip install -r requirements.txt
         ./tools/build.py nova --config-file ./etc/kolla/kolla-build.conf --push
