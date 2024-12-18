@@ -32,5 +32,6 @@ jobs:
       run: |
         git clone https://github.com/dsy3502/kolla.git
         cd ./kolla
+        pip install -r requirements.txt
         ./tools/build.py nova --config-file ./etc/kolla/kolla-build.conf --push
     
