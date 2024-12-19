@@ -32,11 +32,10 @@ pipeline {
               }
             }
             steps{
-              echo "${ref}"
               echo 'pull images to dev'
-              sh 'kolla-ansible -i multinode pull --tag nova -e openstack_tag=${ref}'
+              sh 'kolla-ansible -i multinode pull --tag nova -e openstack_tag=latest'
               echo 'deploy images to develop '
-              sh 'kolla-ansible -i multinode upgrade --tag nova -e openstack_tag=${ref}'
+              sh 'kolla-ansible -i multinode upgrade --tag nova -e openstack_tag=latest'
             }
         }
         stage('deploy dingoOps to dev'){
