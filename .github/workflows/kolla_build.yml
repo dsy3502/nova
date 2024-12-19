@@ -7,7 +7,11 @@ on:
   push:
     branches: [ "master" ]
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - 'releases/**'
+      - 'mastera'
+      - 'develop'
+      - 'stable/**'
 
 permissions:
   contents: read
@@ -42,7 +46,7 @@ jobs:
       run: |
         cd ./kolla
         pip install -r requirements.txt
-        ./tools/build.py nova --config-file ./etc/kolla/kolla-build.conf --push --registry docker.io --namespace dongshanyi
+        ./tools/build.sh
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
