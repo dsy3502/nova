@@ -33,23 +33,11 @@ pipeline {
                // customWorkspace "${workspace}"
               }
             }
-  
-           steps{
-              echo 'deploy dingoOps to test'
-                sh '''
-                '''
-            }
             steps{
               echo 'pull images to dev'
-                sh '''
-                kolla-ansible -i multinode pull --tag nova -e openstack_tag=${ref}
-                '''
-            }
-            steps{
+              sh 'kolla-ansible -i multinode pull --tag nova -e openstack_tag=${ref}'
               echo 'deploy images to develop '
-                sh '''
-                kolla-ansible -i multinode upgrade --tag nova -e openstack_tag=${ref}
-                '''
+              sh 'kolla-ansible -i multinode upgrade --tag nova -e openstack_tag=${ref}'
             }
         }
         stage('deploy dingoOps to dev'){
@@ -62,23 +50,11 @@ pipeline {
                // customWorkspace "${workspace}"
               }
             }
-  
-            steps{
-              echo 'deploy dingoOps to test'
-                sh '''
-                '''
-            }
             steps{
               echo 'pull images to dev'
-                sh '''
-                kolla-ansible -i multinode pull --tag nova -e openstack_tag=${ref}
-                '''
-            }
-            steps{
+              sh 'kolla-ansible -i multinode pull --tag nova -e openstack_tag=${ref}'
               echo 'deploy images to develop '
-                sh '''
-                kolla-ansible -i multinode upgrade --tag nova -e openstack_tag=${ref}
-                '''
+              sh 'kolla-ansible -i multinode upgrade --tag nova -e openstack_tag=${ref}'
             }
         }
     }
