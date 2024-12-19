@@ -32,7 +32,7 @@ pipeline {
               }
             }
             steps{
-              echo ${ref}
+              echo "${ref}"
               echo 'pull images to dev'
               sh 'kolla-ansible -i multinode pull --tag nova -e openstack_tag=${ref}'
               echo 'deploy images to develop '
