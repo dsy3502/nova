@@ -29,7 +29,7 @@ pipeline {
             }
             agent {
               node {
-                label "dingoops"
+                label "dingo_stack"
                // customWorkspace "${workspace}"
               }
             }
@@ -46,7 +46,7 @@ pipeline {
             }
             agent {
               node {
-                label "dingoops"
+                label "dingo_stack"
                // customWorkspace "${workspace}"
               }
             }
