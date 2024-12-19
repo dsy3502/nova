@@ -16,8 +16,6 @@ pipeline {
             ], 
             printContributedVariables: true, 
             printPostContent: true,
-            regexpFilterExpression: '^.*(completed).*$',
-            regexpFilterText: '$action',
             token: 'nova'
         )
     }
