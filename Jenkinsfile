@@ -34,9 +34,9 @@ pipeline {
             }
             steps{
               echo 'pull images to dev'
-              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=latest -vvv'
+              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=latest'
               echo 'deploy images to develop '
-              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest -vvv'
+              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest'
             }
         }
         stage('deploy to dev'){
@@ -50,9 +50,9 @@ pipeline {
             }
             steps{
               echo 'pull images to dev'
-              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${branch} -vvvv'
+              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${branch}'
               echo 'deploy images to develop '
-              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch} -vvvv'
+              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch}'
             }
         }
     }
