@@ -40,7 +40,7 @@ pipeline {
               sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest'
             }
         }
-        stage('deploy dingoOps to dev'){
+        stage('deploy to dev'){
             when {
                 anyOf { branch 'develop'; branch 'stable/2023.2' }
             }
@@ -52,9 +52,9 @@ pipeline {
             }
             steps{
               echo 'pull images to dev'
-              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${ref}'
+              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${env.BRANCH_NAME}'
               echo 'deploy images to develop '
-              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${ref}'
+              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${env.BRANCH_NAME}'
             }
         }
     }
