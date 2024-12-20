@@ -10,7 +10,7 @@ pipeline {
               [key: 'ref', value: '$.ref'],
               [key: 'action', value: '$.action'],
               [key: 'merge_commit', value: '$.pull_request.merge_commit_sha'],
-              [key: 'branch', value: '$.branch'],
+              [key: 'branch', value: '$.head_branch', 'regexpFilter': '^.*(develop).*$'],
               [key: 'repo', value: '$.repository.name'],
               [key: 'pull_request_title', value: '$.pull_request.title']
             ], 
@@ -52,9 +52,9 @@ pipeline {
             }
             steps{
               echo 'pull images to dev'
-              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${ref}'
+              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${branch}'
               echo 'deploy images to develop '
-              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${ref}'
+              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch}'
             }
         }
     }
