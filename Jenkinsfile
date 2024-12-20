@@ -30,7 +30,6 @@ pipeline {
             agent {
               node {
                 label "dingo_stack"
-               // customWorkspace "${workspace}"
               }
             }
             steps{
@@ -47,7 +46,6 @@ pipeline {
             agent {
               node {
                 label "dingo_stack"
-               // customWorkspace "${workspace}"
               }
             }
             steps{
