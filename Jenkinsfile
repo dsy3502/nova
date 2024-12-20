@@ -16,10 +16,8 @@ pipeline {
             ], 
             printContributedVariables: true, 
             printPostContent: true,
-            regexpFilterExpression: '^.*(completed).*$',
-            regexpFilterText: '$action',
-            regexpFilterExpression: '^.*(master).*$',
-            regexpFilterText: '$branch',
+            regexpFilterExpression: 'completed\\smaster',
+            regexpFilterText: '$action $branch',
             token: 'nova'
         )
     }
