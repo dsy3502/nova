@@ -10,7 +10,7 @@ pipeline {
               [key: 'ref', value: '$.ref'],
               [key: 'action', value: '$.action'],
               [key: 'merge_commit', value: '$.pull_request.merge_commit_sha'],
-              [key: 'branch', value: '$.branch'],
+              [key: 'branch', value: '$.branch', 'regexpFilter': '^.*(develop).*$'],
               [key: 'repo', value: '$.repository.name'],
               [key: 'pull_request_title', value: '$.pull_request.title']
             ], 
