@@ -50,9 +50,9 @@ pipeline {
             }
             steps{
               echo 'pull images to dev'
-              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${branch} -vvv'
+              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${branch} --become-user root -vvvv'
               echo 'deploy images to develop '
-              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch} -vvv'
+              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch} --become-user root -vvvv'
             }
         }
     }
