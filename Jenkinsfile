@@ -12,12 +12,13 @@ pipeline {
               [key: 'merge_commit', value: '$.pull_request.merge_commit_sha'],
               [key: 'branch', value: '$.workflow_run.head_branch'],
               [key: 'repo', value: '$.repository.name'],
-              [key: 'pull_request_title', value: '$.pull_request.title']
+              [key: 'pull_request_title', value: '$.pull_request.title'],
+              [key: 'result', value: '$.workflow_run.conclusion']
             ], 
             printContributedVariables: true, 
             printPostContent: true,
-            regexpFilterExpression: 'completed\\sdevelop',
-            regexpFilterText: '$action $branch',
+            regexpFilterExpression: 'completed\\sdevelop\\ssuccess',
+            regexpFilterText: '$action $branch $result',
             token: 'nova'
         )
     }
