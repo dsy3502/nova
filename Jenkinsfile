@@ -34,7 +34,7 @@ pipeline {
               }
             }
             steps{
-              echo 'pull images to dev'
+              echo 'pull images to test'
               sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=latest'
               echo 'deploy images to develop '
               sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest'
