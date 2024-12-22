@@ -51,9 +51,9 @@ pipeline {
             }
             steps{
               echo 'pull images to dev'
-              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${branch} -e docker_registry=docker.io'
+              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${branch} -e docker_registry=registry.cn-hangzhou.aliyuncs.com'
               echo 'deploy images to develop '
-              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch} -e docker_registry=docker.io'
+              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch} -e docker_registry=registry.cn-hangzhou.aliyuncs.com'
             }
         }
     }
