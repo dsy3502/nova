@@ -29,13 +29,13 @@ pipeline {
             when {
                 branch 'master'
             }
-            agent {
-              node {
-                label "dingo_stack"
-              }
-            }
             parallel {
                 stage('pull  nova-api') {
+                    agent {
+                      node {
+                        label "dingo_stack"
+                      }
+                    }
                     steps {
                         echo "pull nova-api images to test"
                         sh 'kolla-ansible -i /root/multinode pull --tag nova-api -e openstack_tag=latest'
@@ -44,6 +44,12 @@ pipeline {
                     }
                 }
                 stage('pull nova-cell') {
+                    agent {
+                      node {
+                        label "dingo_stack"
+                      }
+                    }
+            
                     steps {
                         echo "pull nova-cell images to test"
                         sh 'kolla-ansible -i /root/multinode pull --tag nova-cell -e openstack_tag=latest'
@@ -57,13 +63,14 @@ pipeline {
             when {
                 anyOf { branch 'develop'; branch 'stable/2023.2' }
             }
-            agent {
-              node {
-                label "dingo_stack"
-              }
-            }
+
             parallel {
                 stage('pull  nova-api') {
+                    agent {
+                      node {
+                        label "dingo_stack"
+                      }
+                    }
                     steps {
                         echo "pull nova-api images to dev"
                         sh 'kolla-ansible -i /root/multinode pull --tag nova-api -e openstack_tag=${branch}'
@@ -72,6 +79,11 @@ pipeline {
                     }
                 }
                 stage('pull nova-cell') {
+                    agent {
+                      node {
+                        label "dingo_stack"
+                      }
+                    }
                     steps {
                         echo "pull nova-cell images to dev"
                         sh 'kolla-ansible -i /root/multinode pull --tag nova-cell -e openstack_tag=${branch}'
