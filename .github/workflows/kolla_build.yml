@@ -48,7 +48,7 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-        registry: ${{ secrets.DOCKER_REGISTRY }}
+       
     - name: clone kolla-build code
       run: |
         git clone -b stable/2023.2 https://github.com/dsy3502/kolla.git
