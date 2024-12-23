@@ -37,10 +37,10 @@ pipeline {
               echo 'pull images to test'
               sh '''
                 export https_proxy=172.20.3.88:1088
-                kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=latest
+                kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=latest -e docker_registry=dockerproxy.zetyun.cn/docker.io
               '''
               echo 'deploy images to develop '
-              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest'
+              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest -e docker_registry=dockerproxy.zetyun.cn/docker.io'
             }
         }
         stage('deploy to dev'){
@@ -56,10 +56,10 @@ pipeline {
               echo 'pull images to dev'
               sh '''
                 export https_proxy=172.20.3.88:1088
-                kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${branch} -e docker_registry=docker.io
+                kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${branch} -e docker_registry=dockerproxy.zetyun.cn/docker.io
                 '''
               echo 'deploy images to develop '
-              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch} -e docker_registry=docker.io'
+              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch} -e docker_registry=dockerproxy.zetyun.cn/docker.io'
             }
         }
     }
