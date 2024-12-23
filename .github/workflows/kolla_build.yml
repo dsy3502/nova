@@ -57,7 +57,7 @@ jobs:
         cd ./kolla
         pip install -r requirements.txt
         chmod 777 ./tools/build.sh
-        ./tools/build.sh --registry ${{ secrets.DOCKER_REGISTRY }} --namespace dongshanyi --branch ${GITHUB_REF##*/} --repo nova ----skip-images "base,openstack-base,nova-libvirt,nova-compute,nova-ssh,nova-compute-ironic"
+        ./tools/build.sh --registry ${{ secrets.DOCKER_REGISTRY }} --namespace dongshanyi --branch ${GITHUB_REF##*/} --repo nova --skip-images "base,openstack-base,nova-libvirt,nova-compute,nova-ssh,nova-compute-ironic"
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
