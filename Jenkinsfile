@@ -35,7 +35,10 @@ pipeline {
             }
             steps{
               echo 'pull images to test'
-              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=latest'
+              sh '''
+                export https_proxy=172.20.3.88:1088
+                kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=latest
+              '''
               echo 'deploy images to develop '
               sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest'
             }
@@ -51,7 +54,10 @@ pipeline {
             }
             steps{
               echo 'pull images to dev'
-              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${branch} -e docker_registry=registry.cn-hangzhou.aliyuncs.com'
+              sh '''
+                export https_proxy=172.20.3.88:1088
+                kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=latest
+                '''
               echo 'deploy images to develop '
               sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch} -e docker_registry=registry.cn-hangzhou.aliyuncs.com'
             }
