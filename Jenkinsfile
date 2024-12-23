@@ -17,13 +17,14 @@ pipeline {
             ], 
             printContributedVariables: true, 
             printPostContent: true,
-            regexpFilterExpression: 'completed\\sdevelop\\ssuccess',
+            regexpFilterExpression: 'completed\\smaster\\ssuccess',
             regexpFilterText: '$action $branch $result',
             token: 'nova'
         )
     }
 
     stages {
+        
         stage('Deploy to test'){
             when {
                 branch 'master'
@@ -33,16 +34,26 @@ pipeline {
                 label "dingo_stack"
               }
             }
-            steps{
-              echo 'pull images to test'
-              sh '''
-                kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=latest -e docker_registry=dockerproxy.zetyun.cn/docker.io
-              '''
-              echo 'deploy images to develop '
-              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest -e docker_registry=dockerproxy.zetyun.cn/docker.io'
+            parallel {
+                stage('pull  nova-api') {
+                    steps {
+                        echo "pull nova-api images to test"
+                        sh 'kolla-ansible -i /root/multinode pull --tag nova-api -e openstack_tag=latest'
+                        echo 'deploy images to develop '
+                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest'
+                    }
+                }
+                stage('pull nova-cell') {
+                    steps {
+                        echo "pull nova-cell images to test"
+                        sh 'kolla-ansible -i /root/multinode pull --tag nova-cell -e openstack_tag=latest'
+                        echo 'deploy images to develop '
+                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest'
+                    }
+                }
             }
         }
-        stage('deploy to dev'){
+        stage('deploy dingoOps to dev'){
             when {
                 anyOf { branch 'develop'; branch 'stable/2023.2' }
             }
@@ -51,13 +62,23 @@ pipeline {
                 label "dingo_stack"
               }
             }
-            steps{
-              echo 'pull images to dev'
-              sh '''
-                kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${branch} -e docker_registry=dockerproxy.zetyun.cn/docker.io
-                '''
-              echo 'deploy images to develop '
-              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch} -e docker_registry=dockerproxy.zetyun.cn/docker.io'
+            parallel {
+                stage('pull  nova-api') {
+                    steps {
+                        echo "pull nova-api images to dev"
+                        sh 'kolla-ansible -i /root/multinode pull --tag nova-api -e openstack_tag=${branch}'
+                        echo 'deploy images to develop '
+                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch}'
+                    }
+                }
+                stage('pull nova-cell') {
+                    steps {
+                        echo "pull nova-cell images to dev"
+                        sh 'kolla-ansible -i /root/multinode pull --tag nova-cell -e openstack_tag=${branch}'
+                        echo 'deploy images to develop '
+                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch}'
+                    }
+                }
             }
         }
     }
