@@ -24,6 +24,7 @@ pipeline {
     }
 
     stages {
+        
         stage('Deploy to test'){
             when {
                 branch 'master'
@@ -33,11 +34,23 @@ pipeline {
                 label "dingo_stack"
               }
             }
-            steps{
-              echo 'pull images to dev'
-              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=latest'
-              echo 'deploy images to develop '
-              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest'
+            parallel {
+                stage('pull  nova-api') {
+                    steps {
+                        echo "pull nova-api images to test"
+                        sh 'kolla-ansible -i /root/multinode pull --tag nova-api -e openstack_tag=latest'
+                        echo 'deploy images to develop '
+                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest'
+                    }
+                }
+                stage('pull nova-cell') {
+                    steps {
+                        echo "pull nova-cell images to test"
+                        sh 'kolla-ansible -i /root/multinode pull --tag nova-cell -e openstack_tag=latest'
+                        echo 'deploy images to develop '
+                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest'
+                    }
+                }
             }
         }
         stage('deploy dingoOps to dev'){
@@ -49,11 +62,23 @@ pipeline {
                 label "dingo_stack"
               }
             }
-            steps{
-              echo 'pull images to dev'
-              sh 'kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${branch}'
-              echo 'deploy images to develop '
-              sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch}'
+            parallel {
+                stage('pull  nova-api') {
+                    steps {
+                        echo "pull nova-api images to dev"
+                        sh 'kolla-ansible -i /root/multinode pull --tag nova-api -e openstack_tag=${branch}'
+                        echo 'deploy images to develop '
+                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch}'
+                    }
+                }
+                stage('pull nova-cell') {
+                    steps {
+                        echo "pull nova-cell images to dev"
+                        sh 'kolla-ansible -i /root/multinode pull --tag nova-cell -e openstack_tag=${branch}'
+                        echo 'deploy images to develop '
+                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch}'
+                    }
+                }
             }
         }
     }
