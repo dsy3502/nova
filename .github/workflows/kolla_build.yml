@@ -48,6 +48,7 @@ jobs:
       with:
         username: ${{ secrets.ALIYUN_USERNAME }}
         password: ${{ secrets.ALIYUN_PASSWORD }}
+        registry: ${{ secrets.ALIYUN_REGISTRY_URL }}
     - name: Run a one-line script
       run: |
         git clone -b stable/2023.2 https://github.com/dsy3502/kolla.git
@@ -57,7 +58,7 @@ jobs:
         cd ./kolla
         pip install -r requirements.txt
         chmod 777 ./tools/build.sh
-        ./tools/build.sh --registry registry.cn-hangzhou.aliyuncs.com --namespace dongshanyi --branch ${GITHUB_REF##*/} --repo nova
+        ./tools/build.sh --registry ${{ secrets.ALIYUN_REGISTRY_URL }} --namespace dongshanyi --branch ${GITHUB_REF##*/} --repo nova
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
