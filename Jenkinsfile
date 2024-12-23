@@ -36,7 +36,6 @@ pipeline {
             steps{
               echo 'pull images to test'
               sh '''
-                export https_proxy=172.20.3.88:1088
                 kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=latest -e docker_registry=dockerproxy.zetyun.cn/docker.io
               '''
               echo 'deploy images to develop '
@@ -55,7 +54,6 @@ pipeline {
             steps{
               echo 'pull images to dev'
               sh '''
-                export https_proxy=172.20.3.88:1088
                 kolla-ansible -i /root/multinode pull --tag nova -e openstack_tag=${branch} -e docker_registry=dockerproxy.zetyun.cn/docker.io
                 '''
               echo 'deploy images to develop '
