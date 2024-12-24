@@ -40,7 +40,7 @@ pipeline {
                         echo "pull nova-api images to test"
                         sh 'kolla-ansible -i /root/multinode pull --tag nova-api -e openstack_tag=latest'
                         echo 'deploy images to develop '
-                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest'
+                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova-api -e openstack_tag=latest'
                     }
                 }
                 stage('pull nova-cell') {
@@ -54,7 +54,7 @@ pipeline {
                         echo "pull nova-cell images to test"
                         sh 'kolla-ansible -i /root/multinode pull --tag nova-cell -e openstack_tag=latest'
                         echo 'deploy images to develop '
-                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=latest'
+                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova-cell -e openstack_tag=latest'
                     }
                 }
             }
@@ -75,7 +75,7 @@ pipeline {
                         echo "pull nova-api images to dev"
                         sh 'kolla-ansible -i /root/multinode pull --tag nova-api -e openstack_tag=${branch}'
                         echo 'deploy images to develop '
-                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch}'
+                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova-api -e openstack_tag=${branch}'
                     }
                 }
                 stage('pull nova-cell') {
@@ -88,7 +88,7 @@ pipeline {
                         echo "pull nova-cell images to dev"
                         sh 'kolla-ansible -i /root/multinode pull --tag nova-cell -e openstack_tag=${branch}'
                         echo 'deploy images to develop '
-                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova -e openstack_tag=${branch}'
+                        sh 'kolla-ansible -i /root/multinode upgrade --tag nova-cell -e openstack_tag=${branch}'
                     }
                 }
             }
